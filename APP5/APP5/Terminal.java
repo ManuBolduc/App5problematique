@@ -23,7 +23,7 @@ public class Terminal {
  * @param o_chaine
  */	
   public Terminal(String o_chaine) {   // arguments possibles
-     //
+     chaine = o_chaine;
   }
 
 }
