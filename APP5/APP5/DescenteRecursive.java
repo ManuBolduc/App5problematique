@@ -61,18 +61,7 @@ public void ErreurSynt(String s)
     ElemAST noeud3 = new NoeudAST("3",noeud2,feuille2);
     ElemAST noeud1 = new NoeudAST("1",noeud2,noeud3);
 
-
-    try {
-      OutputStream file = new FileOutputStream(new File("tree.txt"));
-      OutputStreamWriter writer= new OutputStreamWriter(file);
-      noeud1.printTree(writer);
-      writer.close();
-
-    }
-      catch (Exception e)
-      {
-        e.printStackTrace();
-      }
+    System.out.println(noeud1.LectAST());
 
 //    String toWriteLect = "";
 //    String toWriteEval = "";

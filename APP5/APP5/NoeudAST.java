@@ -2,8 +2,7 @@ package APP5;
 
 /** @author Ahmed Khoumsi */
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 
 /** Classe representant une feuille d'AST
  */
@@ -41,7 +40,17 @@ public class NoeudAST extends ElemAST {
   /** Lecture de noeud d'AST
    */
   public String LectAST( ) {
-     return null;//
+    try {
+      OutputStream file = new FileOutputStream(new File("tree.txt"));
+      OutputStreamWriter writer= new OutputStreamWriter(file);
+      this.printTree(writer);
+      writer.close();
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }//
+    return "Le tree a ete creer dans tree.txt";
   }
 
   public void printTree(OutputStreamWriter out) throws IOException {
