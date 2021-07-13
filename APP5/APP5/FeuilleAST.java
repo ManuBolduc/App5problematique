@@ -20,7 +20,7 @@ public class FeuilleAST extends ElemAST {
   /** Evaluation de feuille d'AST
    */
   public int EvalAST( ) {
-    return 0;//
+        return (Integer.parseInt(valeur.chaine));
   }
 
 

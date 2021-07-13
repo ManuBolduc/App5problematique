@@ -25,7 +25,13 @@ public class NoeudAST extends ElemAST {
   /** Evaluation de noeud d'AST
    */
   public int EvalAST( ) {
-     return 0;//
+     if(operation.chaine.equals("+")){
+      return (KidLeft.EvalAST() + KidRight.EvalAST());
+    }
+     else {
+       ErreurEvalAST("Noeud non +");
+       return 0;
+     }
   }
 
 
