@@ -21,7 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="df1bb386-a644-404a-9b08-20ad19ad4523" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/APP5/NoeudAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/APP5/NoeudAST.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/APP5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/APP5/APP5/DescenteRecursive.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/APP5/DescenteRecursive.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/APP5/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/output.txt" afterDir="false" />
@@ -76,7 +75,7 @@
       <option name="presentableId" value="Default" />
       <updated>1626128126866</updated>
       <workItem from="1626128127909" duration="8508000" />
-      <workItem from="1626206823441" duration="894000" />
+      <workItem from="1626206823441" duration="2322000" />
     </task>
     <servers />
   </component>
