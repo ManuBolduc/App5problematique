@@ -1,4 +1,5 @@
 package APP5;
+import java.util.ArrayList;
 
 /** @author Ahmed Khoumsi */
 
@@ -6,14 +7,19 @@ package APP5;
  */
 public class DescenteRecursive {
 
-  // Attributs
-
+  ArrayList<Terminal> expression;
+  int read_index;
 /** Constructeur de DescenteRecursive :
       - recoit en argument le nom du fichier contenant l'expression a analyser
       - pour l'initalisation d'attribut(s)
  */
 public DescenteRecursive(String in) {
-    //
+  read_index = 0;
+  Reader r = new Reader(in);
+  AnalLex lexical = new AnalLex(r.toString());
+  while(!lexical.finFichier) {
+    expression.add(lexical.prochainTerminal());
+  }
 }
 
 
@@ -21,13 +27,21 @@ public DescenteRecursive(String in) {
  *    Elle retourne une reference sur la racine de l'AST construit
  */
 public ElemAST AnalSynt( ) {
-   return null;
+   return E();
 }
 
 
-// Methode pour chaque symbole non-terminal de la grammaire retenue
-// ... 
-// ...
+public ElemAST E() {
+  ElemAST n1;
+  n1 = new FeuilleAST(expression.get(read_index));
+  read_index ++;
+  if (expression.get(read_index).chaine == "+"){
+    read_index ++;
+    ElemAST n2 = E();
+    n1 = new NoeudAST("+", n1, n2);
+  }
+  return n1;
+}
 
 
 

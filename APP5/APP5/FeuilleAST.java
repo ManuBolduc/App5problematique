@@ -6,13 +6,14 @@ package APP5;
  */
 public class FeuilleAST extends ElemAST {
 
-  // Attribut(s)
+  Terminal valeur;
 
 
 /**Constructeur pour l'initialisation d'attribut(s)
+ * @param terminal
  */
-  public FeuilleAST( ) {  // avec arguments
-    //
+  public FeuilleAST(Terminal terminal) {  // avec arguments
+    valeur = terminal;
   }
 
 
