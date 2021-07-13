@@ -19,6 +19,7 @@ public class DescenteRecursive {
  */
 public DescenteRecursive(String in) {
   read_index = 0;
+  expression = new ArrayList<>();
   Reader r = new Reader(in);
   AnalLex lexical = new AnalLex(r.toString());
   while(!lexical.finFichier) {
@@ -60,6 +61,7 @@ public void ErreurSynt(String s)
 
   //Methode principale a lancer pour tester l'analyseur syntaxique 
   public static void main(String[] args) {
+    //testVisualizeTree();
 
     String toWriteLect = "";
     String toWriteEval = "";
@@ -67,17 +69,17 @@ public void ErreurSynt(String s)
     System.out.println("Debut d'analyse syntaxique");
     if (args.length == 0){
       args = new String [2];
-      args[0] = "ExpArith.txt";
+      args[0] = "APP5/input.txt";
       args[1] = "ResultatSyntaxique.txt";
     }
     DescenteRecursive dr = new DescenteRecursive(args[0]);
     try {
       ElemAST RacineAST = dr.AnalSynt();
-      toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
+      toWriteLect += "Lecture de l'AST trouve : "+ "\n" + RacineAST.LectAST() + "\n";
       System.out.println(toWriteLect);
       toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
       System.out.println(toWriteEval);
-      Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite
+      //Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite
                                                               // dans fichier args[1]
     } catch (Exception e) {
       System.out.println(e);
@@ -85,20 +87,22 @@ public void ErreurSynt(String s)
       System.exit(51);
     }
     System.out.println("Analyse syntaxique terminee");
+
+
   }
 
 
-  private void testVisualizeTree(){
+  private static void testVisualizeTree(){
     ElemAST feuille1 = new FeuilleAST("8");
     ElemAST feuille2 = new FeuilleAST("9");
     ElemAST feuille3 = new FeuilleAST("10");
     ElemAST feuille4 = new FeuilleAST("11");
 
 
-    ElemAST noeud2 = new NoeudAST("2",feuille3,feuille4);
-    ElemAST noeud3 = new NoeudAST("3",noeud2,feuille2);
-    ElemAST noeud1 = new NoeudAST("1",noeud2,noeud3);
-
+    ElemAST noeud2 = new NoeudAST("+",feuille3,feuille4);
+    ElemAST noeud3 = new NoeudAST("+",noeud2,feuille2);
+    ElemAST noeud1 = new NoeudAST("+",noeud2,noeud3);
+    System.out.println(noeud1.EvalAST());
     System.out.println(noeud1.LectAST());
   }
 }

@@ -9,14 +9,15 @@ import java.io.OutputStreamWriter;
  */
 public class FeuilleAST extends ElemAST {
 
-  Terminal valeur;
+  //Terminal valeur;
 
 
 /**Constructeur pour l'initialisation d'attribut(s)
  * @param terminal
  */
   public FeuilleAST(Terminal terminal) {  // avec arguments
-    valeur = terminal;
+      super.valeur = terminal;
+  }
   public FeuilleAST(String Valeur) {  // avec arguments
       super.valeur = new Terminal(Valeur);
   }
@@ -25,7 +26,7 @@ public class FeuilleAST extends ElemAST {
   /** Evaluation de feuille d'AST
    */
   public int EvalAST( ) {
-        return (Integer.parseInt(valeur.chaine));
+        return (Integer.parseInt(super.valeur.chaine));
   }
 
 

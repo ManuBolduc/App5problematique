@@ -81,6 +81,7 @@ public class AnalLex {
        if (readIndex == i_text.length()){
          finFichier = true;
          c = '%';
+         System.out.println("we reach max length");
        }
 
        else // read du caractère

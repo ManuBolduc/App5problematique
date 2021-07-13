@@ -8,7 +8,7 @@ import java.io.*;
  */
 public class NoeudAST extends ElemAST {
 
-  Terminal operation;
+  //Terminal operation;
   ElemAST KidLeft;
   ElemAST KidRight;
   /** Constructeur pour l'initialisation d'attributs
@@ -16,13 +16,13 @@ public class NoeudAST extends ElemAST {
   public NoeudAST(String valeur,ElemAST gauche,ElemAST droite) { // avec arguments
     super.valeur = new Terminal(valeur);
     if (gauche != null)
-        this.gauche= gauche;
+        this.KidLeft = gauche;
     if (droite != null)
-      this.droite= droite;
+      this.KidRight= droite;
 
     //
   }
-
+/*
   public NoeudAST(String s, ElemAST n1, ElemAST n2) {
     operation = new Terminal(s);
     KidLeft = n1;
@@ -33,12 +33,12 @@ public class NoeudAST extends ElemAST {
   public NoeudAST(String valeur){
     super.valeur = new Terminal(valeur);
   }
-
+*/
  
   /** Evaluation de noeud d'AST
    */
   public int EvalAST( ) {
-     if(operation.chaine.equals("+")){
+     if(super.valeur.chaine.equals("+")){
       return (KidLeft.EvalAST() + KidRight.EvalAST());
     }
      else {
@@ -65,18 +65,18 @@ public class NoeudAST extends ElemAST {
   }
 
   public void printTree(OutputStreamWriter out) throws IOException {
-    if (droite != null) {
-      droite.printTree(out, true, "");
+    if (KidRight != null) {
+      KidRight.printTree(out, true, "");
     }
     printNodeValue(out);
-    if (gauche != null) {
-      gauche.printTree(out, false, "");
+    if (KidLeft != null) {
+      KidLeft.printTree(out, false, "");
     }
   }
 
   public void printTree(OutputStreamWriter out, boolean isRight, String indent) throws IOException {
-    if (droite != null) {
-      droite.printTree(out, true, indent + (isRight ? "        " : " |      "));
+    if (KidRight != null) {
+      KidRight.printTree(out, true, indent + (isRight ? "        " : " |      "));
     }
     out.write(indent);
     if (isRight) {
@@ -86,8 +86,8 @@ public class NoeudAST extends ElemAST {
     }
     out.write("----- ");
     printNodeValue(out);
-    if (gauche != null) {
-      gauche.printTree(out, false, indent + (isRight ? " |      " : "        "));
+    if (KidLeft != null) {
+      KidLeft.printTree(out, false, indent + (isRight ? " |      " : "        "));
     }
   }
 
