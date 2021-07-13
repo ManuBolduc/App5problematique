@@ -26,4 +26,10 @@ public class Terminal {
      chaine = o_chaine;
   }
 
+    @Override
+    public String toString() {
+        return chaine ;
+    }
 }
+
+

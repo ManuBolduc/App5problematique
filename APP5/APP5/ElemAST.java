@@ -2,11 +2,15 @@ package APP5;
 
 /** @author Ahmed Khoumsi */
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
 /** Classe Abstraite dont heriteront les classes FeuilleAST et NoeudAST
  */
 public abstract class ElemAST {
 
-  
+  protected Terminal valeur;
+
   /** Evaluation d'AST
    */
   public abstract int EvalAST();
@@ -23,4 +27,14 @@ public abstract class ElemAST {
     // 
   }
 
+  public void printTree(OutputStreamWriter out, boolean isRight, String indent) throws IOException{};
+
+  public void printNodeValue(OutputStreamWriter out) throws IOException{};
+
+  public void printTree(OutputStreamWriter out) throws IOException{};
+
+  @Override
+  public String toString() {
+    return  valeur.toString();
+  }
 }

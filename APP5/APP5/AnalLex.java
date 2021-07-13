@@ -97,7 +97,7 @@ public boolean finFichier;
     System.out.println("Debut d'analyse lexicale");
     if (args.length == 0){
     args = new String [2];
-            args[0] = "C:\\Users\\boldu\\Documents\\S4\\APP5\\App5problematique\\APP5\\APP5\\input.txt";
+            args[0] = "APP5\\input.txt";
             args[1] = "output.txt";
     }
     Reader r = new Reader(args[0]);

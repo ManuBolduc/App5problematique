@@ -1,4 +1,9 @@
 package APP5;
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+
 
 /** @author Ahmed Khoumsi */
 
@@ -7,6 +12,7 @@ package APP5;
 public class DescenteRecursive {
 
   // Attributs
+  ArrayList<Terminal> expression;
 
 /** Constructeur de DescenteRecursive :
       - recoit en argument le nom du fichier contenant l'expression a analyser
@@ -42,30 +48,56 @@ public void ErreurSynt(String s)
 
   //Methode principale a lancer pour tester l'analyseur syntaxique 
   public static void main(String[] args) {
-    String toWriteLect = "";
-    String toWriteEval = "";
 
-    System.out.println("Debut d'analyse syntaxique");
-    if (args.length == 0){
-      args = new String [2];
-      args[0] = "ExpArith.txt";
-      args[1] = "ResultatSyntaxique.txt";
-    }
-    DescenteRecursive dr = new DescenteRecursive(args[0]);
+
+
+    ElemAST feuille1 = new FeuilleAST("8");
+    ElemAST feuille2 = new FeuilleAST("9");
+    ElemAST feuille3 = new FeuilleAST("10");
+    ElemAST feuille4 = new FeuilleAST("11");
+
+
+    ElemAST noeud2 = new NoeudAST("2",feuille3,feuille4);
+    ElemAST noeud3 = new NoeudAST("3",noeud2,feuille2);
+    ElemAST noeud1 = new NoeudAST("1",noeud2,noeud3);
+
+
     try {
-      ElemAST RacineAST = dr.AnalSynt();
-      toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
-      System.out.println(toWriteLect);
-      toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
-      System.out.println(toWriteEval);
-      Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite 
-                                                              // dans fichier args[1]
-    } catch (Exception e) {
-      System.out.println(e);
-      e.printStackTrace();
-      System.exit(51);
+      OutputStream file = new FileOutputStream(new File("tree.txt"));
+      OutputStreamWriter writer= new OutputStreamWriter(file);
+      noeud1.printTree(writer);
+      writer.close();
+
     }
-    System.out.println("Analyse syntaxique terminee");
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
+
+//    String toWriteLect = "";
+//    String toWriteEval = "";
+//
+//    System.out.println("Debut d'analyse syntaxique");
+//    if (args.length == 0){
+//      args = new String [2];
+//      args[0] = "ExpArith.txt";
+//      args[1] = "ResultatSyntaxique.txt";
+//    }
+//    DescenteRecursive dr = new DescenteRecursive(args[0]);
+//    try {
+//      ElemAST RacineAST = dr.AnalSynt();
+//      toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
+//      System.out.println(toWriteLect);
+//      toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
+//      System.out.println(toWriteEval);
+//      Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite
+//                                                              // dans fichier args[1]
+//    } catch (Exception e) {
+//      System.out.println(e);
+//      e.printStackTrace();
+//      System.exit(51);
+//    }
+//    System.out.println("Analyse syntaxique terminee");
   }
 
 }
