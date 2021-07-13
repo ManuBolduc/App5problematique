@@ -7,14 +7,7 @@ package APP5;
  */
 public class Terminal {
   public String chaine;
-
-
-
-
-
-
-
-
+  public typeTerminal type;
 
 
 
@@ -26,4 +19,15 @@ public class Terminal {
      chaine = o_chaine;
   }
 
+  public Terminal(String o_chaine, typeTerminal type){
+      chaine = o_chaine;
+      this.type = type;
+
+  }
+    @Override
+    public String toString() {
+        return chaine ;
+    }
 }
+
+
