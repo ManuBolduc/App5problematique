@@ -4,6 +4,7 @@ package APP5;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 /** Classe Abstraite dont heriteront les classes FeuilleAST et NoeudAST
  */
@@ -32,6 +33,12 @@ public abstract class ElemAST {
   public void printNodeValue(OutputStreamWriter out) throws IOException{};
 
   public void printTree(OutputStreamWriter out) throws IOException{};
+
+  public abstract ArrayList<Terminal> PostFix();
+
+  public abstract ArrayList<Terminal> StartPostFix();
+
+  public String EvalASTPostFix(ArrayList<Terminal> terminaux){return "";};
 
   @Override
   public String toString() {

@@ -1,12 +1,21 @@
 package APP5;
 
+
 /** @author Ahmed Khoumsi */
 
 import java.io.*;
+import java.util.ArrayList;
 
 /** Classe representant une feuille d'AST
  */
 public class NoeudAST extends ElemAST {
+
+  private static final char[] possibiliteCharMinuscule = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+  private static final char[] possibiliteCharMajususcule = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+
+  private static final char[] possibiliteChiffre = {'1','2','3','4','5','6','7','8','9','0'};
+
+  private static final char[] possibiliteOperateur = {'+','-','*','/'};
 
   //Terminal operation;
   ElemAST KidLeft;
@@ -14,7 +23,24 @@ public class NoeudAST extends ElemAST {
   /** Constructeur pour l'initialisation d'attributs
    */
   public NoeudAST(String valeur,ElemAST gauche,ElemAST droite) { // avec arguments
-    super.valeur = new Terminal(valeur);
+
+    switch (valeur.charAt(0)) {
+      case '+':
+        super.valeur = new Terminal(valeur,typeTerminal.ADD);
+        break;
+      case '-':
+        super.valeur = new Terminal(valeur,typeTerminal.SUB);
+        break;
+      case '*':
+        super.valeur = new Terminal(valeur,typeTerminal.MULT);
+        break;
+      case '/':
+        super.valeur = new Terminal(valeur,typeTerminal.DIV);
+        break;
+      default:
+      System.out.println("Should not be printed, constructeur noeud AST");
+    }
+
     if (gauche != null)
         this.KidLeft = gauche;
     if (droite != null)
@@ -57,6 +83,57 @@ public class NoeudAST extends ElemAST {
      }
   }
 
+  public String EvalASTPostFix(ArrayList<Terminal> terminaux){
+
+    for (int index =0;terminaux.size()>1;index++)
+    {
+      int tmp=0;
+      if (terminaux.get(index).type== typeTerminal.ADD || terminaux.get(index).type== typeTerminal.SUB || terminaux.get(index).type== typeTerminal.MULT|| terminaux.get(index).type== typeTerminal.DIV){
+        switch (terminaux.get(index).type){
+          case ADD:
+            tmp = Integer.parseInt(terminaux.get(index-1).chaine) + Integer.parseInt(terminaux.get(index-2).chaine);
+            break;
+          case SUB:
+            tmp = Integer.parseInt(terminaux.get(index-1).chaine) - Integer.parseInt(terminaux.get(index-2).chaine);
+            break;
+          case MULT:
+            tmp = Integer.parseInt(terminaux.get(index-1).chaine) * Integer.parseInt(terminaux.get(index-2).chaine);
+            break;
+          case DIV:
+            tmp = Integer.parseInt(terminaux.get(index-1).chaine) / Integer.parseInt(terminaux.get(index-2).chaine);
+            break;
+          default:
+            System.out.println("Devrait pas etre print, evaluation postfix de l'arbre");
+        }
+
+        terminaux.remove(index);
+        terminaux.remove(index-1);
+        terminaux.remove(index-2);
+        terminaux.add(index-2,new Terminal(String.valueOf(tmp),typeTerminal.CHIFFRE));
+        index-=2;
+
+      }
+      else{}
+
+    }
+    return (terminaux.get(0).chaine);
+
+  }
+
+  public ArrayList<Terminal> StartPostFix(){
+    ArrayList<Terminal> tmp = new ArrayList<>();
+    tmp = PostFix();
+    return tmp;
+  }
+
+  public ArrayList<Terminal> PostFix(){
+    ArrayList<Terminal> tmp = new ArrayList<>();
+    tmp.addAll(KidLeft.PostFix()) ;
+    tmp.addAll(KidRight.PostFix());
+    tmp.add(new Terminal(super.valeur.chaine,super.valeur.type));
+    return tmp;
+
+  }
 
   /** Lecture de noeud d'AST
    */
@@ -110,6 +187,16 @@ public class NoeudAST extends ElemAST {
     out.write('\n');
   }
 
+
+  public boolean contains(final char[] array, char key)
+  {
+    for (char i : array)
+    {
+      if (i==key)
+        return true;
+    }
+    return false;
+  }
 }
 
 
