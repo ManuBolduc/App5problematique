@@ -37,13 +37,78 @@ public ElemAST AnalSynt( ) {
 
 
 public ElemAST E() {
-  ElemAST n1;
-  n1 = new FeuilleAST(expression.get(read_index));
-  read_index ++;
-  if (expression.get(read_index).chaine == "+"){
+  ElemAST n1,n3;
+  n1 = T();
+  if (read_index < expression.size()){
+  if (expression.get(read_index).chaine.equals("+")){
     read_index ++;
     ElemAST n2 = E();
-    n1 = new NoeudAST("+", n1, n2);
+    n3 = new NoeudAST("+", n1, n2);
+    n1=n3;}
+  else if (expression.get(read_index).chaine.equals("-")) {
+    read_index ++;
+    ElemAST n2 = T();
+    n3 = new NoeudAST("-", n1, n2);
+    n1=n3;
+  }}
+  return n1;
+}
+
+public ElemAST E_(){
+  ElemAST n1,n3;
+  n1 = new FeuilleAST(expression.get(read_index));
+  read_index ++;
+  if (read_index < expression.size()){
+    if (expression.get(read_index).chaine.equals("+")){
+      read_index ++;
+      ElemAST n2 = E();
+      n3 = new NoeudAST("+", n1, n2);
+      n1=n3;}
+    else if (expression.get(read_index).chaine.equals("-")) {
+      read_index ++;
+      ElemAST n2 = T();
+      n3 = new NoeudAST("-", n1, n2);
+      n1=n3;
+    }}
+  return n1;
+}
+
+public ElemAST T(){
+  ElemAST n1,n3;
+  n1 = Z();
+  if (read_index < expression.size()){
+    if (expression.get(read_index).chaine.equals("*")){
+      read_index ++;
+      ElemAST n2 = T();
+      n3 = new NoeudAST("*", n1, n2);
+      n1=n3;}
+    else if (expression.get(read_index).chaine.equals("/")) {
+      read_index ++;
+      ElemAST n2 = Z();
+      n3 = new NoeudAST("/", n1, n2);
+      n1=n3;
+    }}
+  return n1;
+}
+
+public ElemAST Z(){
+  ElemAST n1 = new FeuilleAST(new Terminal("DEVRAIT PAS VOIR CA",typeTerminal.ERREUR));
+
+  if (read_index < expression.size()){
+    Terminal tmp = expression.get(read_index);
+    if (tmp.type == typeTerminal.CHIFFRE || tmp.type == typeTerminal.VARIABLE  ){
+      n1 = new FeuilleAST(tmp);
+
+      read_index ++;
+    }
+    else if (tmp.type == typeTerminal.PARANTHESEOUVRANTE) {
+      read_index ++;
+      n1 = E();
+      if (expression.get(read_index).type == typeTerminal.PARANTHESEFERMANTE){
+        read_index++;
+      }
+      else {System.out.print("ERREUR DANS Z()");}
+    }
   }
   return n1;
 }
@@ -61,7 +126,7 @@ public void ErreurSynt(String s)
 
   //Methode principale a lancer pour tester l'analyseur syntaxique 
   public static void main(String[] args) {
-    //testVisualizeTree();
+    testVisualizeTree();
 
     String toWriteLect = "";
     String toWriteEval = "";

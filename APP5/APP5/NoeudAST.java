@@ -40,7 +40,17 @@ public class NoeudAST extends ElemAST {
   public int EvalAST( ) {
      if(super.valeur.chaine.equals("+")){
       return (KidLeft.EvalAST() + KidRight.EvalAST());
-    }
+      }
+     else if (super.valeur.chaine.equals("-")){
+       return (KidLeft.EvalAST() - KidRight.EvalAST());
+      }
+     else if (super.valeur.chaine.equals("*")){
+       return (KidLeft.EvalAST() * KidRight.EvalAST());
+     }
+     else if (super.valeur.chaine.equals("/")){
+       return (KidLeft.EvalAST() / KidRight.EvalAST());
+     }
+
      else {
        ErreurEvalAST("Noeud non +");
        return 0;
@@ -52,7 +62,7 @@ public class NoeudAST extends ElemAST {
    */
   public String LectAST( ) {
     try {
-      OutputStream file = new FileOutputStream(new File("tree.txt"));
+      OutputStream file = new FileOutputStream("tree.txt");
       OutputStreamWriter writer= new OutputStreamWriter(file);
       this.printTree(writer);
       writer.close();
