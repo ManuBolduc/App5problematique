@@ -13,6 +13,7 @@ public class DescenteRecursive {
 
   ArrayList<Terminal> expression;
   int read_index;
+  boolean flag1 = false;
 /** Constructeur de DescenteRecursive :
       - recoit en argument le nom du fichier contenant l'expression a analyser
       - pour l'initalisation d'attribut(s)
@@ -61,59 +62,33 @@ public ElemAST AnalSynt( ) {
 
 public ElemAST E() {
   ElemAST n1,n3;
-  n1 = F();
+  n1 = T();
   if (read_index < expression.size()){
-    if (expression.get(read_index).chaine.equals("+")){
+    if (expression.get(read_index).chaine.equals("+") || expression.get(read_index).chaine.equals("-")){
+      String op = expression.get(read_index).chaine;
       read_index ++;
       ElemAST n2 = E();
-      n3 = new NoeudAST("+", n1, n2);
+      n3 = new NoeudAST(op, n1, n2);
       n1=n3;
     }
 
   }
   return n1;
-}
-
-public ElemAST F() {
-  ElemAST n1,n2,n3;
-  n2 = T();
-  if (read_index < expression.size()){
-    if (expression.get(read_index).chaine.equals("-")){
-      read_index ++;
-      n1 = F();
-      n3 = new NoeudAST("-", n1, n2);
-      n2=n3;
-    }
-  }
-  return n2;
 }
 
 public ElemAST T(){
   ElemAST n1,n3;
-  n1 = U();
+  n1 = Z();
   if (read_index < expression.size()){
-    if (expression.get(read_index).chaine.equals("*")){
+    if (expression.get(read_index).chaine.equals("*") || expression.get(read_index).chaine.equals("/")){
+      String op = expression.get(read_index).chaine;
       read_index ++;
       ElemAST n2 = T();
-      n3 = new NoeudAST("*", n1, n2);
+      n3 = new NoeudAST(op, n1, n2);
       n1=n3;
     }
   }
   return n1;
-}
-
-public ElemAST U(){
-  ElemAST n1,n2,n3;
-  n2 = Z();
-  if (read_index < expression.size()){
-    if (expression.get(read_index).chaine.equals("/")){
-      read_index ++;
-      n1 = U();
-      n3 = new NoeudAST("/", n1, n2);
-      n2=n3;
-    }
-  }
-  return n2;
 }
 
 public ElemAST Z(){
