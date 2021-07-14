@@ -26,7 +26,7 @@ public class Terminal {
   }
     @Override
     public String toString() {
-        return chaine ;
+      return chaine ;
     }
 }
 

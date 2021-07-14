@@ -46,7 +46,6 @@ public class FeuilleAST extends ElemAST {
   public ArrayList<Terminal>  StartPostFix(){return null;}
 
 
-
   public void printNodeValue(OutputStreamWriter out) throws IOException {
         if (super.valeur == null) {
             out.write("<null>");

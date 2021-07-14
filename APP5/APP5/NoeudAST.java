@@ -18,8 +18,8 @@ public class NoeudAST extends ElemAST {
   private static final char[] possibiliteOperateur = {'+','-','*','/'};
 
   //Terminal operation;
-  ElemAST KidLeft;
-  ElemAST KidRight;
+  public ElemAST KidLeft;
+  public ElemAST KidRight;
   /** Constructeur pour l'initialisation d'attributs
    */
   public NoeudAST(String valeur,ElemAST gauche,ElemAST droite) { // avec arguments
@@ -49,7 +49,7 @@ public class NoeudAST extends ElemAST {
     //
   }
 /*
-  public NoeudAST(String s, ElemAST n1, ElemAST n2) {
+  public NoeudAST(String s+, ElemAST n1, ElemAST n2) {
     operation = new Terminal(s);
     KidLeft = n1;
     KidRight = n2;
@@ -64,7 +64,7 @@ public class NoeudAST extends ElemAST {
   /** Evaluation de noeud d'AST
    */
   public int EvalAST( ) {
-     if(super.valeur.chaine.equals("+")){
+     try {if(super.valeur.chaine.equals("+")){
       return (KidLeft.EvalAST() + KidRight.EvalAST());
       }
      else if (super.valeur.chaine.equals("-")){
@@ -81,26 +81,31 @@ public class NoeudAST extends ElemAST {
        ErreurEvalAST("Noeud non +");
        return 0;
      }
+     } catch (Exception e){
+       System.out.println("Impossible devaluer une chaine de charactere");
+       return 0;
+     }
   }
 
   public String EvalASTPostFix(ArrayList<Terminal> terminaux){
-
+    try{
     for (int index =0;terminaux.size()>1;index++)
     {
       int tmp=0;
       if (terminaux.get(index).type== typeTerminal.ADD || terminaux.get(index).type== typeTerminal.SUB || terminaux.get(index).type== typeTerminal.MULT|| terminaux.get(index).type== typeTerminal.DIV){
+
         switch (terminaux.get(index).type){
           case ADD:
-            tmp = Integer.parseInt(terminaux.get(index-1).chaine) + Integer.parseInt(terminaux.get(index-2).chaine);
+            tmp = Integer.parseInt(terminaux.get(index-2).chaine) + Integer.parseInt(terminaux.get(index-1).chaine);
             break;
           case SUB:
-            tmp = Integer.parseInt(terminaux.get(index-1).chaine) - Integer.parseInt(terminaux.get(index-2).chaine);
+            tmp = Integer.parseInt(terminaux.get(index-2).chaine) - Integer.parseInt(terminaux.get(index-1).chaine);
             break;
           case MULT:
-            tmp = Integer.parseInt(terminaux.get(index-1).chaine) * Integer.parseInt(terminaux.get(index-2).chaine);
+            tmp = Integer.parseInt(terminaux.get(index-2).chaine) * Integer.parseInt(terminaux.get(index-1).chaine);
             break;
           case DIV:
-            tmp = Integer.parseInt(terminaux.get(index-1).chaine) / Integer.parseInt(terminaux.get(index-2).chaine);
+            tmp = Integer.parseInt(terminaux.get(index-2).chaine) / Integer.parseInt(terminaux.get(index-1).chaine);
             break;
           default:
             System.out.println("Devrait pas etre print, evaluation postfix de l'arbre");
@@ -114,10 +119,12 @@ public class NoeudAST extends ElemAST {
 
       }
       else{}
-
+    }
+    }
+    catch (Exception e){
+      System.out.println(" Une variable est presente dans larbre donc on ne peut pas levaluer");
     }
     return (terminaux.get(0).chaine);
-
   }
 
   public ArrayList<Terminal> StartPostFix(){
@@ -132,23 +139,22 @@ public class NoeudAST extends ElemAST {
     tmp.addAll(KidRight.PostFix());
     tmp.add(new Terminal(super.valeur.chaine,super.valeur.type));
     return tmp;
-
   }
 
   /** Lecture de noeud d'AST
    */
   public String LectAST( ) {
-    try {
-      OutputStream file = new FileOutputStream("tree.txt");
-      OutputStreamWriter writer= new OutputStreamWriter(file);
-      this.printTree(writer);
-      writer.close();
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }//
-    return "Le tree a ete creer dans tree.txt";
+//    try {
+//      OutputStream file = new FileOutputStream("tree.txt");
+//      OutputStreamWriter writer= new OutputStreamWriter(file);
+//      this.printTree(writer);
+//      writer.close();
+//    }
+//    catch (Exception e)
+//    {
+//      e.printStackTrace();
+//    }//
+    return "(" + KidLeft.LectAST() + super.valeur.chaine + KidRight.LectAST() + ")";
   }
 
   public void printTree(OutputStreamWriter out) throws IOException {
@@ -186,7 +192,6 @@ public class NoeudAST extends ElemAST {
     }
     out.write('\n');
   }
-
 
   public boolean contains(final char[] array, char key)
   {

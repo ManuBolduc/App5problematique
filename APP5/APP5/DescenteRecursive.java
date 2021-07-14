@@ -1,6 +1,4 @@
 package APP5;
-import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -22,25 +20,24 @@ public DescenteRecursive(String in) {
   read_index = 0;
   expression = new ArrayList<>();
   Reader r = new Reader(in);
-  AnalLex lexical = new AnalLex(r.toString());
-  while(!lexical.finFichier) {
-    expression.add(lexical.prochainTerminal());
-  }
+  AnalLex lexical = new AnalLex().runOnTextFile(in,"output.txt");
+  expression= lexical.liste_terminaux;
 }
+
 public DescenteRecursive(ArrayList<Terminal> liste ){
   read_index = 0;
   expression = liste;
 }
 
-/*
+
 public ElemAST E_(){
   ElemAST n1,n3;
   n1 = new FeuilleAST(expression.get(read_index));
-  read_index ++;
+
   if (read_index < expression.size()){
     if (expression.get(read_index).chaine.equals("+")){
       read_index ++;
-      ElemAST n2 = E();
+      ElemAST n2 = E_();
       n3 = new NoeudAST("+", n1, n2);
       n1=n3;}
     else if (expression.get(read_index).chaine.equals("-")) {
@@ -51,7 +48,7 @@ public ElemAST E_(){
     }}
   return n1;
 }
-*/
+
 /** AnalSynt() effectue l'analyse syntaxique et construit l'AST.
  *    Elle retourne une reference sur la racine de l'AST construit
  */
@@ -71,9 +68,8 @@ public ElemAST E() {
       n3 = new NoeudAST(op, n1, n2);
       n1=n3;
     }
-
   }
-  return n1;
+  return eG;
 }
 
 public ElemAST T(){
@@ -92,7 +88,7 @@ public ElemAST T(){
 }
 
 public ElemAST Z(){
-  ElemAST n1 = new FeuilleAST(new Terminal("DEVRAIT PAS VOIR CA",typeTerminal.ERREUR));
+  ElemAST n1 = new FeuilleAST(new Terminal("ERREUR a l'unite lexical : "+String.valueOf(read_index) ,typeTerminal.ERREUR));
 
   if (read_index < expression.size()){
     Terminal tmp = expression.get(read_index);
@@ -107,7 +103,7 @@ public ElemAST Z(){
       if (expression.get(read_index).type == typeTerminal.PARANTHESEFERMANTE){
         read_index++;
       }
-      else {System.out.print("ERREUR DANS Z()");}
+      else {System.out.print(n1.toString());}
     }
   }
   return n1;
@@ -122,7 +118,6 @@ public void ErreurSynt(String s) {
 }
 
 
-
   //Methode principale a lancer pour tester l'analyseur syntaxique 
   public static void main(String[] args) {
     //testVisualizeTree();
@@ -132,49 +127,53 @@ public void ErreurSynt(String s) {
     String toWriteLect = "";
     String toWriteEval = "";
 
-
     System.out.println("Debut d'analyse syntaxique");
-    if (args.length == 0){
-      args = new String [2];
+    if (args.length == 0) {
+      args = new String[2];
       args[0] = "APP5/input.txt";
-      args[1] = "ResultatSyntaxique.txt";
+      args[1] = "output.txt";
     }
-    DescenteRecursive dr = new DescenteRecursive(args[0]);
-    try {
-      ElemAST RacineAST = dr.AnalSynt();
-      toWriteLect += "Lecture de l'AST trouve : "+ "\n" + RacineAST.LectAST() + "\n";
-      System.out.println(toWriteLect);
-      System.out.println("Lecture postfix : ");
-      //tmp = RacineAST.StartPostFix();
-      //System.out.println(printPostFix(tmp));
-      //System.out.println(RacineAST.EvalASTPostFix(tmp));
-      toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
-      System.out.println(toWriteEval);
-      //Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite
-                                                              // dans fichier args[1]
-    } catch (Exception e) {
-      System.out.println(e);
-      e.printStackTrace();
-      System.exit(51);
-    }
-    System.out.println("Analyse syntaxique terminee");
+    System.out.print(testBothAnalyser(args[0],args[1]));
+//    DescenteRecursive dr = new DescenteRecursive(args[0]);
+//    try {
+//      ElemAST RacineAST = dr.AnalSynt();
+//      toWriteLect += "Lecture de l'AST trouve : "+ "\n" + RacineAST.LectAST() + "\n";
+//      System.out.println(toWriteLect);
+//      System.out.println("Lecture postfix : ");
+//      tmp = RacineAST.StartPostFix();
+//      System.out.println(printPostFix(tmp));
+//      //System.out.println(RacineAST.EvalASTPostFix(tmp));
+//      toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
+//      System.out.println(toWriteEval);
+//      //Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite
+//                                                              // dans fichier args[1]
+//    } catch (Exception e) {
+//      System.out.println(e);
+//      e.printStackTrace();
+//      System.exit(51);
+//    }
+//    System.out.println("Analyse syntaxique terminee");
+//  }
   }
-
   private static boolean checkErreurParanthese(int ouvrante, int fermante){
-    if(ouvrante!= fermante){
-      int i = ouvrante - fermante;
-      System.out.print("\nErreur , il manque : ");
-      if (ouvrante < fermante){
-        System.out.print(-i);
-        System.out.print(" paranthese ouvrante");}
-      else{
-        System.out.print(i);
-        System.out.print(" paranthese fermante");
-      }
-      return false;}
+    if(ouvrante== fermante)
+      return false;
     else
       return true;
   }
+
+  private static String parseErreurParanthese(int ouvrante, int fermante){
+    int i = ouvrante - fermante;
+    String tmp="";
+    tmp+="\nErreur , il manque : ";
+    if (ouvrante < fermante){
+      tmp+=String.valueOf(-i);
+      tmp+=" paranthese ouvrante";}
+    else{
+      tmp+=String.valueOf(i);
+      tmp+=" paranthese ouvrante";}
+    return tmp;
+}
 
   private static void testVisualizeTree(){
     ElemAST feuille1 = new FeuilleAST("8");
@@ -190,29 +189,53 @@ public void ErreurSynt(String s) {
     System.out.println(noeud1.LectAST());
   }
 
-  private static void testBothAnalyser(){
+  private static String testBothAnalyser(String input, String output){
     String toWriteLect = "";
     String toWriteEval = "";
+    String ErreurRetour="";
 
     ArrayList<Terminal> tmp = new ArrayList<>();
 
-    AnalLex lexical = new AnalLex().runOnTextFile("APP5/input.txt","outpout.txt");
+    AnalLex lexical = new AnalLex().runOnTextFile(input,output);
 
-    if(checkErreurParanthese(lexical.countParantheseOuvrante,lexical.countParantheseFermante)){}
+    for(Terminal terminaux: lexical.liste_terminaux){
+      if (terminaux.type==typeTerminal.ERREUR){
+        ErreurRetour+="Erreur dans l'analyse lexical: "+terminaux.chaine ;
+        return ErreurRetour;
+      }
+    }
 
+    if(checkErreurParanthese(lexical.countParantheseOuvrante,lexical.countParantheseFermante)){
+      ErreurRetour+= parseErreurParanthese(lexical.countParantheseOuvrante,lexical.countParantheseFermante);
+      return ErreurRetour;
+    }
     else{
-    DescenteRecursive dr = new DescenteRecursive(lexical.liste_terminaux);
+
+      DescenteRecursive dr = new DescenteRecursive(lexical.liste_terminaux);
+
 
     try {
       ElemAST RacineAST = dr.AnalSynt();
       toWriteLect += "Lecture de l'AST trouve : "+ "\n" + RacineAST.LectAST() + "\n";
       System.out.println(toWriteLect);
+      System.out.println("Evaluation de l'AST trouve : ") ;
+
       tmp = RacineAST.StartPostFix();
-      System.out.println(printPostFix(tmp));
-      toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
+      for(Terminal terminaux : tmp)
+      {
+        if(terminaux.type==typeTerminal.ERREUR){
+          throw new Exception(terminaux.chaine);
+        }
+      }
+      toWriteEval += RacineAST.EvalAST() + "\n";
+
       System.out.println(toWriteEval);
-      //Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite
-      // dans fichier args[1]
+
+      System.out.println("Analyse Postfix : ");
+
+      System.out.println(printPostFix(tmp));
+
+
     } catch (Exception e) {
       System.out.println(e);
       e.printStackTrace();
@@ -220,7 +243,9 @@ public void ErreurSynt(String s) {
     }
     System.out.println("Analyse syntaxique terminee");
 
-  }}
+  }
+  return ErreurRetour;
+}
 
   private static String printPostFix (ArrayList<Terminal> liste){
   String s= "";
@@ -230,4 +255,6 @@ public void ErreurSynt(String s) {
   return s;
   }
 }
+
+
 

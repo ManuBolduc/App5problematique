@@ -9,6 +9,7 @@ public enum typeTerminal {
     PARANTHESEFERMANTE,
     VARIABLE,
     CHIFFRE,
-    ERREUR
+    ERREUR,
+    EOF
 
 }

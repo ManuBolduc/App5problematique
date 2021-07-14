@@ -21,11 +21,14 @@
   <component name="ChangeListManager">
     <list default="true" id="df1bb386-a644-404a-9b08-20ad19ad4523" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APP5/AnalLex.java" beforeDir="false" afterPath="$PROJECT_DIR$/APP5/AnalLex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP5/DescenteRecursive.java" beforeDir="false" afterPath="$PROJECT_DIR$/APP5/DescenteRecursive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APP5/FeuilleAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/APP5/FeuilleAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APP5/LexicalState.java" beforeDir="false" afterPath="$PROJECT_DIR$/APP5/LexicalState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP5/NoeudAST.java" beforeDir="false" afterPath="$PROJECT_DIR$/APP5/NoeudAST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APP5/Terminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/APP5/Terminal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP5/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/APP5/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/APP5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/APP5/APP5.iml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/APP5.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APP5/typeTerminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/APP5/typeTerminal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/APP5/APP5/AnalLex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/APP5/AnalLex.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/APP5/APP5/DescenteRecursive.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/APP5/DescenteRecursive.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/APP5/APP5/ElemAST.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/APP5/ElemAST.class" afterDir="false" />
@@ -34,7 +37,7 @@
       <change beforePath="$PROJECT_DIR$/out/production/APP5/APP5/Terminal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/APP5/Terminal.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/APP5/APP5/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/APP5/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/APP5/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/APP5/output.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tree.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +54,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1vEXGcofB9Q2gGBClMSzlrq378J" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -166,25 +177,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/APP5/DescenteRecursive.java</url>
-          <line>142</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/APP5/DescenteRecursive.java</url>
-          <line>143</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/APP5/DescenteRecursive.java</url>
-          <line>144</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/APP5/DescenteRecursive.java</url>
-          <line>145</line>
-          <option name="timeStamp" value="4" />
+          <line>171</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="RacineAST" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

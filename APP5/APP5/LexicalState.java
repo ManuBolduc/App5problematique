@@ -4,6 +4,7 @@ public enum LexicalState {
     initial,
     chiffre,
     variable,
-    underscore
+    underscore,
+    operateur
 
 }

@@ -23,6 +23,7 @@ public class AnalLex {
   public ArrayList<Terminal> liste_terminaux;
   public int countParantheseOuvrante;
   public int countParantheseFermante;
+  public int countParantheseRajoute;
 
 
   private static final char[] possibiliteCharMinuscule = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
@@ -43,6 +44,7 @@ public class AnalLex {
     this.liste_terminaux = new ArrayList<Terminal>();
     this.countParantheseOuvrante =0;
     this.countParantheseFermante=0;
+    countParantheseRajoute=0;
   };
 
   /** Constructeur pour l'initialisation d'attribut(s)
@@ -57,6 +59,7 @@ public class AnalLex {
     this.liste_terminaux = new ArrayList<Terminal>();
     this.countParantheseOuvrante =0;
     this.countParantheseFermante=0;
+    countParantheseRajoute=0;
   }
 
 
@@ -77,16 +80,15 @@ public class AnalLex {
      char c;
      this.o_chaine = "";
      while (!finFichier){
-       //System.out.println("loop");
        if (readIndex == i_text.length()){
          finFichier = true;
          c = '%';
-         System.out.println("we reach max length");
        }
 
        else // read du caractère
        {
          c = i_text.charAt(this.readIndex);
+         //System.out.println(c);
        }
 
        readIndex++;
@@ -116,17 +118,17 @@ public class AnalLex {
            } // ( ou )
 
          else if (contains(possibiliteChiffre,c) ) {
-           System.out.println("we see a number in the initial state ");
+           //System.out.println("we see a number in the initial state ");
            o_chaine += c;
            state = LexicalState.chiffre;
-           System.out.println("changing state to chiffre ");
+           //System.out.println("changing state to chiffre ");
          } // contient un chiffre entre 0 et 9, on entre dans letat de detection des chiffres
 
          else if (contains(possibiliteCharMajususcule,c)){
-           System.out.println("we see a Majuscule in the initial state ");
+           //System.out.println("we see a Majuscule in the initial state ");
            o_chaine += c;
            state = LexicalState.variable;
-           System.out.println("changing state to variable ");
+           //System.out.println("changing state to variable ");
          }//contient une lettre minuscule ou majuscule , on entre dans letat de detection des variables
 
          else if (contains(possibiliteCharMinuscule,c)){
@@ -137,14 +139,40 @@ public class AnalLex {
          else if (c==' '){ } // on fait rien s'il y a des espaces
          else {
            finFichier = true;
-           System.out.println("we see something random in the initial state ");
+           //System.out.println("we see something random in the initial state ");
            ErreurLex("1315");
-           return new Terminal("fin de fichier",typeTerminal.ERREUR);}// symbole non reconnu dans letat initial : fin du fichier
+           return new Terminal("fin de fichier",typeTerminal.EOF);}// symbole non reconnu dans letat initial : fin du fichier
           }
+
+       else if(state == LexicalState.operateur){
+         if(c==' '){ }//on fait rien si on trouve une espace
+         else if(c==')'){
+           ErreurLex("1315");
+           return new Terminal("Erreur au caractere :" + readIndex + "\n paranthese fermante apres un op: " + o_chaine,typeTerminal.ERREUR);
+         }
+         else if (contains(possibiliteCharMajususcule,c)){
+           o_chaine += c;
+           state = LexicalState.variable;
+         }
+         else if (contains(possibiliteChiffre,c)){
+           o_chaine += c;
+           state = LexicalState.chiffre;
+         }
+         else if(contains(possibiliteCharMinuscule,c)){
+           o_chaine += c;
+           ErreurLex("1315");
+           return new Terminal("Erreur au caractere :" + readIndex + "\n lettre minuscule comme debut de variable : " + o_chaine,typeTerminal.ERREUR);
+         }
+         else if( contains(possibiliteOperateur,c)){
+           o_chaine += c;
+           ErreurLex("1315");
+           return new Terminal("Erreur au caractere :" + readIndex + "\n deux operateurs de suite : " + o_chaine,typeTerminal.ERREUR);
+         }
+       }
 
        else if(state == LexicalState.chiffre) {
          if (contains(possibiliteChiffre,c)){
-           System.out.println("we see number state chiffre");
+           //System.out.println("we see number state chiffre");
            o_chaine += c;
          }
          else if (c=='(' || c==')'){
@@ -154,12 +182,12 @@ public class AnalLex {
 
          }
          else if (c==' '){
-           state = LexicalState.initial;
-           return new Terminal(o_chaine,typeTerminal.CHIFFRE);
+           //state = LexicalState.initial;
+           //return new Terminal(o_chaine,typeTerminal.CHIFFRE);
          } // on retourne le chiffre s'il y a des espaces
 
          else{
-           System.out.println("symbol in state chiffre");
+           //System.out.println("symbol in state chiffre");
            readIndex--;
            state = LexicalState.initial;
            return new Terminal(o_chaine,typeTerminal.CHIFFRE);
@@ -168,18 +196,18 @@ public class AnalLex {
 
        else if(state == LexicalState.variable){
          if(contains(possibiliteCharMinuscule,c)|| contains(possibiliteCharMajususcule,c)){
-           System.out.println("we see lettre minuscule ou majuscule dans le  state variable");
+           //System.out.println("we see lettre minuscule ou majuscule dans le  state variable");
            o_chaine += c;
          }
          else if (contains(possibiliteOperateur,c)){
-           System.out.println("operateur in state variable, switch pour etat initial");
+           //System.out.println("operateur in state variable, switch pour etat initial");
            readIndex--;
            state = LexicalState.initial;
            return new Terminal(o_chaine,typeTerminal.VARIABLE);
          }
 
          else if (c == '_'){
-           System.out.println("we see _ dans le  state variable, changement pour letat underscore");
+           //System.out.println("we see _ dans le  state variable, changement pour letat underscore");
            o_chaine += c;
            state = LexicalState.underscore;
          }
@@ -206,7 +234,7 @@ public class AnalLex {
 
        else if (state == LexicalState.underscore){
          if (contains(possibiliteCharMinuscule,c) || contains(possibiliteCharMajususcule,c)){
-           System.out.println("we see char dans le  state underscore, changement pour letat variable");
+           //System.out.println("we see char dans le  state underscore, changement pour letat variable");
            o_chaine += c;
            state = LexicalState.variable;
          }
@@ -242,7 +270,7 @@ public class AnalLex {
 /** ErreurLex() envoie un message d'erreur lexicale
  */ 
   public void ErreurLex(String s) {
-    System.out.println(s);
+    //System.out.println(s);
   }
 
 
@@ -256,18 +284,18 @@ public class AnalLex {
     Terminal t = null;
     while(!lexical.finFichier){
       t = lexical.prochainTerminal();
-      lexical.liste_terminaux.add(t); // ajout des UL en ordre dans un tableau de terminaux
-      toWrite +=t.chaine + "\n" ;
+      lexical.liste_terminaux.add(t);
+      toWrite +=t.chaine +" "+ t.type +"\n" ;
     }
 
     if (outputpath != null){
       Writer w = new Writer(outputpath,toWrite); // Ecriture de toWrite dans fichier specifier en argument
     }
-
     System.out.println("Fin d'analyse lexicale");
     return lexical;
 
   }
+
 
   public boolean contains(final char[] array, char key)
   {
