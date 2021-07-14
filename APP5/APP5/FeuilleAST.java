@@ -4,6 +4,7 @@ package APP5;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 /** Classe representant une feuille d'AST
  */
@@ -35,6 +36,15 @@ public class FeuilleAST extends ElemAST {
   public String LectAST( ) {
       return super.valeur.chaine;//
   }
+
+  public ArrayList<Terminal> PostFix(){
+      ArrayList<Terminal> tmp = new ArrayList<>();
+      tmp.add(super.valeur);
+      return tmp;
+  }
+
+  public ArrayList<Terminal>  StartPostFix(){return null;}
+
 
 
   public void printNodeValue(OutputStreamWriter out) throws IOException {

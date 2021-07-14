@@ -134,9 +134,7 @@ public class AnalLex {
            return new Terminal("Lettre minuscule detecte dans letat intiial",typeTerminal.ERREUR);
          } // lettre minuscule detecte sans Majuscule
 
-         else if (c==' '){
-
-         }
+         else if (c==' '){ } // on fait rien s'il y a des espaces
          else {
            finFichier = true;
            System.out.println("we see something random in the initial state ");
@@ -149,6 +147,17 @@ public class AnalLex {
            System.out.println("we see number state chiffre");
            o_chaine += c;
          }
+         else if (c=='(' || c==')'){
+           readIndex--;
+           state = LexicalState.initial;
+           return new Terminal(o_chaine,typeTerminal.CHIFFRE);
+
+         }
+         else if (c==' '){
+           state = LexicalState.initial;
+           return new Terminal(o_chaine,typeTerminal.CHIFFRE);
+         } // on retourne le chiffre s'il y a des espaces
+
          else{
            System.out.println("symbol in state chiffre");
            readIndex--;
@@ -174,6 +183,12 @@ public class AnalLex {
            o_chaine += c;
            state = LexicalState.underscore;
          }
+
+         else if (c==' '){
+           state = LexicalState.initial;
+           return new Terminal(o_chaine,typeTerminal.VARIABLE);
+         }
+
          else if(c == '(' || c== ')'){
            readIndex--;
            state = LexicalState.initial;
@@ -224,8 +239,6 @@ public class AnalLex {
      return new Terminal("CECI NE DEVRAIT PAS PRINT PUISQUON EST SUPPOSER RETURN QQCHOSE(ERREUR OU AUTRE) ",typeTerminal.ERREUR);
   }
 
-
-
 /** ErreurLex() envoie un message d'erreur lexicale
  */ 
   public void ErreurLex(String s) {
@@ -256,7 +269,7 @@ public class AnalLex {
 
   }
 
-  private boolean contains(final char[] array, char key)
+  public boolean contains(final char[] array, char key)
   {
     for (char i : array)
     {
@@ -273,7 +286,13 @@ public class AnalLex {
     System.out.println("\n\nListe de Terminaux");
     for(Terminal terminal : lexical.liste_terminaux)
       System.out.print(" "+ terminal.toString());
-
+    System.out.print("\nParanthese ouvrantes : ");
+    System.out.print(lexical.countParantheseOuvrante);
+    System.out.print("\nParanthese fermantes : ");
+    System.out.print(lexical.countParantheseFermante);
 
   }
+
+
+
 }
