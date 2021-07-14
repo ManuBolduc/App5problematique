@@ -31,32 +31,7 @@ public DescenteRecursive(ArrayList<Terminal> liste ){
   expression = liste;
 }
 
-
-/** AnalSynt() effectue l'analyse syntaxique et construit l'AST.
- *    Elle retourne une reference sur la racine de l'AST construit
- */
-public ElemAST AnalSynt( ) {
-   return E();
-}
-
-public ElemAST E() {
-  ElemAST n1,n3;
-  n1 = T();
-  if (read_index < expression.size()){
-  if (expression.get(read_index).chaine.equals("+")){
-    read_index ++;
-    ElemAST n2 = E();
-    n3 = new NoeudAST("+", n1, n2);
-    n1=n3;}
-  else if (expression.get(read_index).chaine.equals("-")) {
-    read_index ++;
-    ElemAST n2 = E();
-    n3 = new NoeudAST("-", n1, n2);
-    n1=n3;
-  }}
-  return n1;
-}
-
+/*
 public ElemAST E_(){
   ElemAST n1,n3;
   n1 = new FeuilleAST(expression.get(read_index));
@@ -75,23 +50,70 @@ public ElemAST E_(){
     }}
   return n1;
 }
+*/
+/** AnalSynt() effectue l'analyse syntaxique et construit l'AST.
+ *    Elle retourne une reference sur la racine de l'AST construit
+ */
+public ElemAST AnalSynt( ) {
+   return E();
+}
+
+
+public ElemAST E() {
+  ElemAST n1,n3;
+  n1 = F();
+  if (read_index < expression.size()){
+    if (expression.get(read_index).chaine.equals("+")){
+      read_index ++;
+      ElemAST n2 = E();
+      n3 = new NoeudAST("+", n1, n2);
+      n1=n3;
+    }
+
+  }
+  return n1;
+}
+
+public ElemAST F() {
+  ElemAST n1,n2,n3;
+  n2 = T();
+  if (read_index < expression.size()){
+    if (expression.get(read_index).chaine.equals("-")){
+      read_index ++;
+      n1 = F();
+      n3 = new NoeudAST("-", n1, n2);
+      n2=n3;
+    }
+  }
+  return n2;
+}
 
 public ElemAST T(){
   ElemAST n1,n3;
-  n1 = Z();
+  n1 = U();
   if (read_index < expression.size()){
     if (expression.get(read_index).chaine.equals("*")){
       read_index ++;
       ElemAST n2 = T();
       n3 = new NoeudAST("*", n1, n2);
-      n1=n3;}
-    else if (expression.get(read_index).chaine.equals("/")) {
-      read_index ++;
-      ElemAST n2 = T();
-      n3 = new NoeudAST("/", n1, n2);
       n1=n3;
-    }}
+    }
+  }
   return n1;
+}
+
+public ElemAST U(){
+  ElemAST n1,n2,n3;
+  n2 = Z();
+  if (read_index < expression.size()){
+    if (expression.get(read_index).chaine.equals("/")){
+      read_index ++;
+      n1 = U();
+      n3 = new NoeudAST("/", n1, n2);
+      n2=n3;
+    }
+  }
+  return n2;
 }
 
 public ElemAST Z(){
