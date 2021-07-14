@@ -170,9 +170,9 @@ public void ErreurSynt(String s) {
       toWriteLect += "Lecture de l'AST trouve : "+ "\n" + RacineAST.LectAST() + "\n";
       System.out.println(toWriteLect);
       System.out.println("Lecture postfix : ");
-      tmp = RacineAST.StartPostFix();
-      System.out.println(printPostFix(tmp));
-      System.out.println(RacineAST.EvalASTPostFix(tmp));
+      //tmp = RacineAST.StartPostFix();
+      //System.out.println(printPostFix(tmp));
+      //System.out.println(RacineAST.EvalASTPostFix(tmp));
       toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
       System.out.println(toWriteEval);
       //Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite
