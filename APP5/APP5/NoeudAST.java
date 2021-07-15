@@ -115,9 +115,7 @@ public class NoeudAST extends ElemAST {
   }
 
   public ArrayList<Terminal> StartPostFix(){
-    ArrayList<Terminal> tmp = new ArrayList<>();
-    tmp = PostFix();
-    return tmp;
+    return PostFix();
   }
 
   public ArrayList<Terminal> PostFix(){

@@ -84,13 +84,12 @@ public class AnalLex {
        else // read du caractère
        {
          c = i_text.charAt(this.readIndex);
-         //System.out.println(c);
        }
 
        readIndex++;
 
        if (state == LexicalState.initial) {
-         if(c=='+'||c=='-'||c=='*'||c=='/') {
+         if(c=='+'||c=='-'||c=='*'||c=='/'||c=='(' || c==')') {
            o_chaine += c;
            switch (c){
              case '-':
@@ -99,19 +98,15 @@ public class AnalLex {
                return new Terminal(o_chaine,typeTerminal.MULT);
              case '/':
                return new Terminal(o_chaine,typeTerminal.DIV);
+             case '(':
+               countParantheseOuvrante++;
+               return new Terminal(o_chaine,typeTerminal.PARANTHESEOUVRANTE);
+             case ')':
+               countParantheseFermante++;
+               return new Terminal(o_chaine,typeTerminal.PARANTHESEFERMANTE);
              default:
                return new Terminal(o_chaine,typeTerminal.ADD); } } // Lors d'un operateur + - / * , on retourne seulement un Terminal et on continu
 
-         else if (c=='(' || c==')'){
-           o_chaine += c;
-           if (c=='('){
-             countParantheseOuvrante++;
-             return new Terminal(o_chaine,typeTerminal.PARANTHESEOUVRANTE);}
-           else {
-             countParantheseFermante++;
-             return new Terminal(o_chaine, typeTerminal.PARANTHESEFERMANTE);}
-
-           } // ( ou )
 
          else if (contains(possibiliteChiffre,c) ) {
            o_chaine += c;
@@ -140,19 +135,6 @@ public class AnalLex {
          if (contains(possibiliteChiffre,c)){
            o_chaine += c;
          }
-         else if (c=='(' || c==')'){
-           readIndex--;
-           state = LexicalState.initial;
-           return new Terminal(o_chaine,typeTerminal.CHIFFRE);
-
-         }
-         else if (c==' '){ } //rien si on a une espace
-
-         else if(contains(possibiliteCharMinuscule,c)||contains(possibiliteCharMajususcule,c)){
-           o_chaine += c;
-           ErreurLex("1315");
-           return new Terminal("Erreur au caractere :" + readIndex + "\n lettre dans un chiffre: " + o_chaine,typeTerminal.ERREUR);
-         }
          else{
            readIndex--;
            state = LexicalState.initial;
@@ -175,22 +157,10 @@ public class AnalLex {
            state = LexicalState.underscore;
          }
 
-         else if (c==' '){
-           state = LexicalState.initial;
-           return new Terminal(o_chaine,typeTerminal.VARIABLE);
-         }
-
-         else if(c == '(' || c== ')'){
+         else{
            readIndex--;
            state = LexicalState.initial;
            return new Terminal(o_chaine,typeTerminal.VARIABLE);
-         }
-
-         else{
-           finFichier = true;
-           o_chaine += c;
-           ErreurLex("1315");
-           return new Terminal("Erreur au caractere :" + readIndex + "\n Caractere non recconu dans letat variable : " + o_chaine,typeTerminal.ERREUR);
          }
 
        }
