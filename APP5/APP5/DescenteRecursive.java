@@ -69,7 +69,7 @@ public ElemAST E() {
       n1=n3;
     }
   }
-  return eG;
+  return n1;
 }
 
 public ElemAST T(){
