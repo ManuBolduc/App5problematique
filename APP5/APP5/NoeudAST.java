@@ -48,23 +48,13 @@ public class NoeudAST extends ElemAST {
 
     //
   }
-/*
-  public NoeudAST(String s+, ElemAST n1, ElemAST n2) {
-    operation = new Terminal(s);
-    KidLeft = n1;
-    KidRight = n2;
-  }
 
-
-  public NoeudAST(String valeur){
-    super.valeur = new Terminal(valeur);
-  }
-*/
- 
   /** Evaluation de noeud d'AST
    */
   public int EvalAST( ) {
-     try {if(super.valeur.chaine.equals("+")){
+
+
+    if(super.valeur.chaine.equals("+")){
       return (KidLeft.EvalAST() + KidRight.EvalAST());
       }
      else if (super.valeur.chaine.equals("-")){
@@ -78,13 +68,10 @@ public class NoeudAST extends ElemAST {
      }
 
      else {
-       ErreurEvalAST("Noeud non +");
+       ErreurEvalAST("Noeud non operateur");
        return 0;
      }
-     } catch (Exception e){
-       System.out.println("Impossible devaluer une chaine de charactere");
-       return 0;
-     }
+
   }
 
   public String EvalASTPostFix(ArrayList<Terminal> terminaux){

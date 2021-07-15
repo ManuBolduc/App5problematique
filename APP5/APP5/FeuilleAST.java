@@ -27,7 +27,12 @@ public class FeuilleAST extends ElemAST {
   /** Evaluation de feuille d'AST
    */
   public int EvalAST( ) {
-        return (Integer.parseInt(super.valeur.chaine));
+
+      if (super.valeur.type!=typeTerminal.CHIFFRE ){
+          ErreurEvalAST("Impossible devaluer une chaine de charactere");
+          return 0;}
+      else
+          return (Integer.parseInt(super.valeur.chaine));
   }
 
 
