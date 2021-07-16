@@ -129,16 +129,16 @@ public class NoeudAST extends ElemAST {
   /** Lecture de noeud d'AST
    */
   public String LectAST( ) {
-//    try {
-//      OutputStream file = new FileOutputStream("tree.txt");
-//      OutputStreamWriter writer= new OutputStreamWriter(file);
-//      this.printTree(writer);
-//      writer.close();
-//    }
-//    catch (Exception e)
-//    {
-//      e.printStackTrace();
-//    }//
+    try {
+      OutputStream file = new FileOutputStream("tree.txt");
+      OutputStreamWriter writer= new OutputStreamWriter(file);
+      this.printTree(writer);
+      writer.close();
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }//
     return "(" + KidLeft.LectAST() + super.valeur.chaine + KidRight.LectAST() + ")";
   }
 

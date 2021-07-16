@@ -29,26 +29,6 @@ public DescenteRecursive(ArrayList<Terminal> liste ){
   expression = liste;
 }
 
-
-public ElemAST E_(){
-  ElemAST n1,n3;
-  n1 = new FeuilleAST(expression.get(read_index));
-
-  if (read_index < expression.size()){
-    if (expression.get(read_index).chaine.equals("+")){
-      read_index ++;
-      ElemAST n2 = E_();
-      n3 = new NoeudAST("+", n1, n2);
-      n1=n3;}
-    else if (expression.get(read_index).chaine.equals("-")) {
-      read_index ++;
-      ElemAST n2 = T();
-      n3 = new NoeudAST("-", n1, n2);
-      n1=n3;
-    }}
-  return n1;
-}
-
 /** AnalSynt() effectue l'analyse syntaxique et construit l'AST.
  *    Elle retourne une reference sur la racine de l'AST construit
  */
@@ -68,6 +48,12 @@ public ElemAST E() {
       n3 = new NoeudAST(op, n1, n2);
       n1=n3;
     }
+    else if(expression.get(read_index).type == typeTerminal.VARIABLE || expression.get(read_index).type == typeTerminal.CHIFFRE){
+      n1.valeur.chaine = "Erreur: operande suivie d'un autre operande\n";
+    }
+    else if(expression.get(read_index).type == typeTerminal.PARANTHESEFERMANTE || expression.get(read_index).type == typeTerminal.PARANTHESEOUVRANTE){
+      n1.valeur.chaine = "Erreur: operande suivie d'une parenthese\n";
+    }
   }
   return n1;
 }
@@ -83,13 +69,19 @@ public ElemAST T(){
       n3 = new NoeudAST(op, n1, n2);
       n1=n3;
     }
+    else if(expression.get(read_index).type == typeTerminal.VARIABLE || expression.get(read_index).type == typeTerminal.CHIFFRE){
+      n1.valeur.chaine = "Erreur: operande suivie  d'un autre operande\n";
+    }
+    else if(expression.get(read_index).type == typeTerminal.PARANTHESEFERMANTE || expression.get(read_index).type == typeTerminal.PARANTHESEOUVRANTE){
+      n1.valeur.chaine = "Erreur: operande suivie d'une parenthese\n";
+    }
   }
   return n1;
 }
 
 public ElemAST Z(){
-  ElemAST n1 = new FeuilleAST(new Terminal("ERREUR a l'unite lexical : "+String.valueOf(read_index) ,typeTerminal.ERREUR));
-
+  //ElemAST n1 = new FeuilleAST(new Terminal("ERREUR a l'unite lexical : "+String.valueOf(read_index) ,typeTerminal.ERREUR));
+  ElemAST n1 = new FeuilleAST(new Terminal("ERREUR fichier ne finit pas sur un operande ou une parenthese fermante\n"));
   if (read_index < expression.size()){
     Terminal tmp = expression.get(read_index);
     if (tmp.type == typeTerminal.CHIFFRE || tmp.type == typeTerminal.VARIABLE  ){
@@ -100,10 +92,18 @@ public ElemAST Z(){
     else if (tmp.type == typeTerminal.PARANTHESEOUVRANTE) {
       read_index ++;
       n1 = E();
-      if (expression.get(read_index).type == typeTerminal.PARANTHESEFERMANTE){
-        read_index++;
+      if (read_index < expression.size()) {
+        if (expression.get(read_index).type == typeTerminal.PARANTHESEFERMANTE) {
+          read_index++;
+        }
       }
-      else {System.out.print(n1.toString());}
+      else {n1.valeur.chaine = "Erreur: parenthese ouvrante sans parenthese fermante\n";}
+    }
+    else if (read_index == 0){
+      n1.valeur.chaine = "Erreur: debute par un operateur ou une parenthese fermante\n";
+    }
+    else if (read_index < expression.size()-1){
+      n1.valeur.chaine = "Erreur: parenthese fermante ou operateur a la suite d'un operateur ou d'une parenthese ouvrante\n";
     }
   }
   return n1;
